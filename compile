@@ -1,0 +1,13 @@
+#! /bin/bash
+
+lex src/dico.lex
+yacc src/grammaire.yacc
+
+mv y.tab.c grammaire.c
+mv lex.yy.c dico.c
+
+gcc grammaire.c -ly -ll
+
+mv a.out bin/traducteur.exe
+
+rm dico.c grammaire.c
