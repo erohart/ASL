@@ -1,13 +1,16 @@
 #! /bin/bash
 
 lex src/dico.lex
-yacc src/grammaire.yacc
+#yacc src/grammaire.yacc
 
-mv y.tab.c grammaire.c
+#mv y.tab.c grammaire.c
 mv lex.yy.c dico.c
 
-gcc grammaire.c -ly -ll
+gcc -o bin/dico.exe dico.c -lfl
 
-mv a.out bin/traducteur.exe
+#gcc grammaire.c -ly -ll
 
-rm dico.c grammaire.c
+#mv a.out bin/traducteur.exe
+
+#rm dico.c grammaire.c
+rm dico.c
