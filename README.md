@@ -1,2 +1,2 @@
 # ASL
-mini traducteur fancais-anglais en Le et Yacc
+mini traducteur fancais-anglais en Lex et Yacc
