@@ -8,7 +8,8 @@ negation_fin (pas|not)
 temporalite (hier|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|monday|tuesday|wednesday|thursday|friday|saturday|sunday)
 blanc [ \t]+
 %%
-{sujet}{blanc}{verbe} printf("une phrase");
 {sujet}{blanc}{negation_debut}{blanc}{verbe}{blanc}{negation_fin} printf("phrase negative");
+{sujet}{blanc}{verbe}{blanc}{negation_fin} printf("phrase negative type anglais");
+{sujet}{blanc}{verbe} printf("une phrase");
 {sujet}{blanc}{verbe}{blanc}{temporalite} printf("temporel");
 %%
