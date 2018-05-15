@@ -1,0 +1,5 @@
+{sujet}{blanc}{negation_debut}{blanc}{verbe}{blanc}{negation_fin} printf("phrase negative");
+{sujet}{blanc}{verbe}{blanc}{negation_fin} printf("phrase negative type anglais");
+{sujet}{blanc}{verbe} printf("une phrase");
+{sujet}{blanc}{verbe}{blanc}{temporalite} printf("temporel");
+
