@@ -8,6 +8,7 @@
 
 %{
 	#include <stdio.h>
+	int yylex();
 	char *trad;
 %}
 
@@ -32,3 +33,4 @@ int main(){
 	}
 	return 1;
 }
+

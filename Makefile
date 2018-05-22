@@ -7,7 +7,7 @@ BINDIR = ./bin
 
 TARGET = dico.exe
 
-pre-build: $(BINDIR) $(OBJDIR) $(TARGET)
+pre-build: clean $(BINDIR) $(OBJDIR) $(TARGET)
 	
 $(TARGET): $(OBJDIR)/dico.l.c $(OBJDIR)/dico.y.c
 	gcc -o $(BINDIR)/$(TARGET) $(OBJDIR)/dico.y.c -ly -ll
