@@ -8,7 +8,7 @@ temporalite (hier|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|yesterday|
 blanc [ \t]+
 %%
 
-{blanc}?(je){blanc}? {printf("I ");return Sujet;}
+{blanc}?(je){blanc}? {printf("I ");fct(yytext);return Sujet;}
 {blanc}?(tu){blanc}? {printf("you "); return Sujet;}
 {blanc}?(il){blanc}? {printf("he "); return Sujet;}
 {blanc}?(elle){blanc}? {printf("she "); return Sujet;}
@@ -43,3 +43,4 @@ blanc [ \t]+
 \n {return ('\n');}
 
 %%
+

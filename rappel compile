@@ -1,4 +1,4 @@
-Rappel commandes pour compiler
+#Rappel commandes pour compiler
 
 lex src/dico.lex
 yacc src/dico.yacc
