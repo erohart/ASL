@@ -1,7 +1,7 @@
 #Rappel commandes pour compiler
 
-lex src/dico.lex
-yacc src/dico.yacc
+lex src/dico.l
+yacc src/dico.y
 
 mv y.tab.c dico.y.c
 mv lex.yy.c dico.l.c
