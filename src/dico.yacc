@@ -5,22 +5,30 @@
 %token NegationDebut
 %token NegationFin
 %token Temporalite
-%start S
+
+%{
+	#include <stdio.h>
+	char *trad;
+%}
 
 %%
-expr : '\n'
-	| phrase '\n' {printf("-->%s\n",trad);} 
+expr : phrase '\n' {printf("-->%s\n",trad);} 
+	|
+	;
 
-phrase: Sujet'+'Verbe'+'Complement {trad = $1+$3+$5;}
-	| Sujet'+'Verbe'+'Complement'+'Adjectif {trad = $1+$3+$7+$5;}
-	| Sujet'+'NegetionDebut'+'Verbe'+'NegationFin'+'Complement {trad = $1+$5+$3+$9;} 
-	| Sujet'+'Verbe'+'Complement'+'Temporalite     {trad = $7+$1+$3+$5;}
+phrase: Sujet' 'Verbe' 'Complement {/*trad = $1+$3+$5;*/trad = "phrase 1";}
+	| Sujet' 'Verbe' 'Complement' 'Adjectif {/*trad = $1+$3+$7+$5;*/trad = "phrase 2";}
+	| Sujet' 'NegationDebut' 'Verbe' 'NegationFin' 'Complement {/*trad = $1+$5+$3+$9;*/trad = "phrase 3";} 
+	| Sujet' 'Verbe' 'Complement' 'Temporalite     {/*trad = $7+$1+$3+$5;*/trad = "phrase 4";}
 	;
 
 
 %%
-#include <stdio.h>
-#include "dico.lex.c"
-
+#include "dico.l.c"
 yyerror() {printf(stderr,"erreur");}
-int main() {if (yyparse() != 0){printf(stderr, "erreur de syntaxe"); return 1;}
+int main(){
+	if (yyparse() != 0){
+		printf(stderr, "erreur de syntaxe");
+	}
+	return 1;
+}
