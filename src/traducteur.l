@@ -12,6 +12,7 @@ Adj ("beau"|"delicieux"|"rouge"|"bleu"|"jaune"|"heureux"|"beautiful"|"delicious"
 ND ("ne"|"not")
 NF ("pas")
 T ("hier"|"lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"dimanche"|"yesterday"|"monday"|"tuesday"|"wednesday"|"thursday"|"friday"|"saturday"|"sunday")
+P ("."|"!"|"?")
 
 
 %%
@@ -24,8 +25,8 @@ T ("hier"|"lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"dimanche"|"yes
 {C} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return complement;}
 {T} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return temporalite;}
 [ \t]	{return blanc;}
-'\n' 	{return sautLigne;}
-"." 	{return point;}
+\n 	{return sautLigne;}
+{P} 	{yylval.string=yytext;return point;}
 .	{yyerror("mot inconnu\n");yylval.string=yytext;return complement;}
 
 %%

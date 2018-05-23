@@ -9,8 +9,8 @@ char* concatenation(char* str1, char* str2);
 %union {char* string; char car;}
 %start phrase
 %token blanc
-%token point
 %token sautLigne
+%token <string> point
 %token <string> sujet
 %token <string> verbe
 %token <string> adjectif
@@ -22,7 +22,8 @@ char* concatenation(char* str1, char* str2);
 
 %%
 
-phrase 	: sujetVerbe point	{printf("%s.\n", $1);}
+phrase 	: sujetVerbe point phrase	{printf("%s%s\n", $1, $2);}
+	| sautLigne 	// devrait permettre de pouvoir ecrire plusieures lignes mais ne fonctionne pas ...
 	;
 sujetVerbe 	: sujet blanc verbe 	{$$ = concatenationAvecEspace($1, $3);}
 		| sujet blanc verbe blanc complement	{$$ = concatenationAvecEspace(concatenationAvecEspace($1, $3), $5);}
