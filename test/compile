@@ -1,0 +1,5 @@
+#! /bin/bash
+rm lex.yy.c y.tab.c y.tab.h
+yacc -d test.y
+lex test.l
+gcc lex.yy.c y.tab.c -o test -ly -ll
