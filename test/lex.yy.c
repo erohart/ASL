@@ -375,8 +375,8 @@ static void yy_fatal_error (yyconst char msg[]  );
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
 
-#define YY_NUM_RULES 6
-#define YY_END_OF_BUFFER 7
+#define YY_NUM_RULES 9
+#define YY_END_OF_BUFFER 10
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -384,10 +384,11 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_accept[15] =
+static yyconst flex_int16_t yy_accept[30] =
     {   0,
-        0,    0,    7,    5,    3,    6,    4,    5,    5,    1,
-        0,    0,    2,    0
+        0,    0,   10,    8,    6,    9,    7,    8,    8,    8,
+        8,    8,    8,    8,    1,    0,    0,    3,    0,    0,
+        0,    4,    0,    0,    2,    0,    0,    5,    0
     } ;
 
 static yyconst YY_CHAR yy_ec[256] =
@@ -401,10 +402,10 @@ static yyconst YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    5,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    6,    1,    1,    1,
 
-        6,    1,    1,    1,    7,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    8,    1,    9,    1,    1,    1,
+        7,    1,    1,    8,    9,   10,    1,    1,   11,   12,
+       13,   14,    1,   15,   16,    1,   17,    1,    1,   18,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -422,35 +423,44 @@ static yyconst YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static yyconst YY_CHAR yy_meta[10] =
+static yyconst YY_CHAR yy_meta[19] =
     {   0,
-        1,    1,    1,    1,    1,    1,    1,    1,    1
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    1
     } ;
 
-static yyconst flex_uint16_t yy_base[15] =
+static yyconst flex_uint16_t yy_base[30] =
     {   0,
-        0,    0,   14,   15,   15,   15,   15,    7,    3,   15,
-        4,    2,   15,   15
+        0,    0,   35,   36,   36,   36,   36,   27,   26,   25,
+       18,   23,   23,   11,   36,   10,   17,   36,    9,   15,
+        8,   36,    6,   14,   36,    3,    1,   36,   36
     } ;
 
-static yyconst flex_int16_t yy_def[15] =
+static yyconst flex_int16_t yy_def[30] =
     {   0,
-       14,    1,   14,   14,   14,   14,   14,   14,   14,   14,
-       14,   14,   14,    0
+       29,    1,   29,   29,   29,   29,   29,   29,   29,   29,
+       29,   29,   29,   29,   29,   29,   29,   29,   29,   29,
+       29,   29,   29,   29,   29,   29,   29,   29,    0
     } ;
 
-static yyconst flex_uint16_t yy_nxt[25] =
+static yyconst flex_uint16_t yy_nxt[55] =
     {   0,
-        4,    5,    6,    7,    8,    4,    4,    9,    4,   13,
-       12,   11,   10,   14,    3,   14,   14,   14,   14,   14,
-       14,   14,   14,   14
+        4,    5,    6,    7,    8,    4,    4,    9,    4,   10,
+       11,   12,    4,   13,    4,   14,    4,    4,   28,   27,
+       26,   25,   24,   23,   22,   15,   21,   20,   19,   18,
+       17,   15,   16,   15,   29,    3,   29,   29,   29,   29,
+       29,   29,   29,   29,   29,   29,   29,   29,   29,   29,
+       29,   29,   29,   29
     } ;
 
-static yyconst flex_int16_t yy_chk[25] =
+static yyconst flex_int16_t yy_chk[55] =
     {   0,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,   12,
-       11,    9,    8,    3,   14,   14,   14,   14,   14,   14,
-       14,   14,   14,   14
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    1,   27,   26,
+       24,   23,   21,   20,   19,   17,   16,   14,   13,   12,
+       11,   10,    9,    8,    3,   29,   29,   29,   29,   29,
+       29,   29,   29,   29,   29,   29,   29,   29,   29,   29,
+       29,   29,   29,   29
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -472,7 +482,11 @@ char *yytext;
 #include "y.tab.h"
 #include <string.h>
 char* dictionnaireFrancaisAnglais(char* motFrancais);
-#line 476 "lex.yy.c"
+/*
+"Je"	{printf("lex:sujet=%s\n", yytext);yylval.string=dictionnaireFrancaisAnglais(yytext);return sujet;}
+"suis"	{printf("lex:verbe=%s\n", yytext);yylval.string=dictionnaireFrancaisAnglais(yytext);return verbe;}
+*/
+#line 490 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -690,10 +704,10 @@ YY_DECL
 		}
 
 	{
-#line 7 "./test.l"
+#line 20 "./test.l"
 
 
-#line 697 "lex.yy.c"
+#line 711 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -720,13 +734,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 15 )
+				if ( yy_current_state >= 30 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 15 );
+		while ( yy_base[yy_current_state] != 36 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -752,35 +766,50 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 9 "./test.l"
+#line 22 "./test.l"
 {printf("lex:sujet=%s\n", yytext);yylval.string=dictionnaireFrancaisAnglais(yytext);return sujet;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 10 "./test.l"
+#line 23 "./test.l"
 {printf("lex:verbe=%s\n", yytext);yylval.string=dictionnaireFrancaisAnglais(yytext);return verbe;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 11 "./test.l"
-{printf("lex:blanc\n");return blanc;}
+#line 24 "./test.l"
+{printf("lex:ND=%s\n", yytext);yylval.string=dictionnaireFrancaisAnglais(yytext);return negationDebut;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 12 "./test.l"
-{printf("lex:point\n");return point;}
+#line 25 "./test.l"
+{printf("lex:NF=%s\n", yytext);yylval.string=dictionnaireFrancaisAnglais(yytext);return negationFin;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 13 "./test.l"
-{printf("lex:caractereInconnu\n");yyerror("lex-inconnu\n");return blanc;}
+#line 26 "./test.l"
+{printf("lex:complement=%s\n", yytext);yylval.string=dictionnaireFrancaisAnglais(yytext);return complement;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 15 "./test.l"
+#line 27 "./test.l"
+{printf("lex:blanc\n");return blanc;}
+	YY_BREAK
+case 7:
+YY_RULE_SETUP
+#line 28 "./test.l"
+{printf("lex:point\n");return point;}
+	YY_BREAK
+case 8:
+YY_RULE_SETUP
+#line 29 "./test.l"
+{printf("lex:caractereInconnu\n");yyerror("lex-inconnu\n");return blanc;}
+	YY_BREAK
+case 9:
+YY_RULE_SETUP
+#line 31 "./test.l"
 ECHO;
 	YY_BREAK
-#line 784 "lex.yy.c"
+#line 813 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1073,7 +1102,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 15 )
+			if ( yy_current_state >= 30 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -1101,11 +1130,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 15 )
+		if ( yy_current_state >= 30 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 14);
+	yy_is_jam = (yy_current_state == 29);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }
@@ -1781,7 +1810,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 15 "./test.l"
+#line 31 "./test.l"
 
 
 
@@ -1790,13 +1819,20 @@ int yywrap(void){
 }
 
 char* dictionnaireFrancaisAnglais(char* motFrancais){
-	printf("DansFct:%s\n", motFrancais);
 	if(strcmp(motFrancais, "Je")==0||strcmp(motFrancais, "je")==0){
 		return "I";
 	}else if(strcmp(motFrancais, "suis")==0){
 		return "am";
+	}else if(strcmp(motFrancais, "eau")==0){
+		return "water";
+	}else if(strcmp(motFrancais, "heureux")==0){
+		return "happy";
+	}else if(strcmp(motFrancais, "ne")==0){
+		return "not";
 	}else{
-		return "motInconnu";
+		char* res = malloc(strlen(motFrancais)*sizeof(char));
+		strcpy(res, motFrancais); // il faut renvoyer une copie car si le motFrancais est modifié par la suite cela modifiera aussi res. (hors motFrancais peut etre yytext)
+		return res;
 	}
 }
 

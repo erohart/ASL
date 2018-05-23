@@ -48,7 +48,10 @@ extern int yydebug;
     blanc = 258,
     point = 259,
     sujet = 260,
-    verbe = 261
+    verbe = 261,
+    complement = 262,
+    negationDebut = 263,
+    negationFin = 264
   };
 #endif
 /* Tokens.  */
@@ -56,6 +59,9 @@ extern int yydebug;
 #define point 259
 #define sujet 260
 #define verbe 261
+#define complement 262
+#define negationDebut 263
+#define negationFin 264
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -65,7 +71,7 @@ union YYSTYPE
 #line 8 "./test.y" /* yacc.c:1909  */
 char* string; char car;
 
-#line 69 "y.tab.h" /* yacc.c:1909  */
+#line 75 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

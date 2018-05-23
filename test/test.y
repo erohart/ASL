@@ -11,14 +11,18 @@ char* concatenationAvecEspace(char* str1, char* str2);
 %token point
 %token <string> sujet
 %token <string> verbe
+%token <string> complement
+%token <string> negationDebut
+%token <string> negationFin
 %type <string> sujetVerbe
 
 %%
 
-phrase 	: sujetVerbe point 	{printf("yacc:phrase est : %s.\n", $1);}
+phrase 	: sujetVerbe point 	{printf("yacc:la phrase finale est : %s.\n", $1);}
 	;
 sujetVerbe 	: sujet blanc verbe 	{ printf("yacc:LaPhrase, sujet=%s_verbe=%s\n", $1, $3); $$ = concatenationAvecEspace($1, $3);}
-		| sujet 	{printf("yacc:sujet=%s\n", $1);}
+		| sujet blanc verbe blanc complement	{printf("yacc:sujetVerbeComplement=%s_%s_%s\n", $1, $3, $5); $$ = concatenationAvecEspace(concatenationAvecEspace($1, $3), $5); }
+		| sujet blanc negationDebut blanc verbe blanc negationFin blanc complement 	{printf("yacc:sujetVerbeComplementNegation=%s_%s_%s_%s_%s\n", $1, $3, $5, $7, $9); $$ = concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace($1, $5), $3), $9); }
 		;
 %%
 

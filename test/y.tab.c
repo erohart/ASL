@@ -107,7 +107,10 @@ extern int yydebug;
     blanc = 258,
     point = 259,
     sujet = 260,
-    verbe = 261
+    verbe = 261,
+    complement = 262,
+    negationDebut = 263,
+    negationFin = 264
   };
 #endif
 /* Tokens.  */
@@ -115,6 +118,9 @@ extern int yydebug;
 #define point 259
 #define sujet 260
 #define verbe 261
+#define complement 262
+#define negationDebut 263
+#define negationFin 264
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -124,7 +130,7 @@ union YYSTYPE
 #line 8 "./test.y" /* yacc.c:355  */
 char* string; char car;
 
-#line 128 "y.tab.c" /* yacc.c:355  */
+#line 134 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -141,7 +147,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 145 "y.tab.c" /* yacc.c:358  */
+#line 151 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -383,21 +389,21 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   6
+#define YYLAST   16
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  7
+#define YYNTOKENS  10
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  3
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  4
+#define YYNRULES  5
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  8
+#define YYNSTATES  17
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   261
+#define YYMAXUTOK   264
 
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -432,14 +438,14 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6
+       5,     6,     7,     8,     9
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    18,    18,    20,    21
+       0,    21,    21,    23,    24,    25
 };
 #endif
 
@@ -449,7 +455,8 @@ static const yytype_uint8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "blanc", "point", "sujet", "verbe",
-  "$accept", "phrase", "sujetVerbe", YY_NULLPTR
+  "complement", "negationDebut", "negationFin", "$accept", "phrase",
+  "sujetVerbe", YY_NULLPTR
 };
 #endif
 
@@ -458,14 +465,14 @@ static const char *const yytname[] =
    (internal) symbol number NUM (which must be that of a token).  */
 static const yytype_uint16 yytoknum[] =
 {
-       0,   256,   257,   258,   259,   260,   261
+       0,   256,   257,   258,   259,   260,   261,   262,   263,   264
 };
 # endif
 
-#define YYPACT_NINF -6
+#define YYPACT_NINF -7
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-6)))
+  (!!((Yystate) == (-7)))
 
 #define YYTABLE_NINF -1
 
@@ -476,7 +483,8 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -5,    -2,     2,    -1,     0,    -6,    -6,    -6
+      -4,     0,     4,     1,    -6,    -7,    -7,     3,     5,     2,
+       6,    -7,     7,    -2,     8,     9,    -7
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -484,13 +492,14 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     4,     0,     0,     0,     1,     2,     3
+       0,     0,     0,     0,     0,     1,     2,     3,     0,     0,
+       0,     4,     0,     0,     0,     0,     5
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -6,    -6,    -6
+      -7,    -7,    -7
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
@@ -504,31 +513,34 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-       1,     4,     5,     6,     0,     0,     7
+       7,     1,     8,     4,     5,     6,     9,    14,    10,    11,
+      13,    15,    12,     0,     0,     0,    16
 };
 
 static const yytype_int8 yycheck[] =
 {
-       5,     3,     0,     4,    -1,    -1,     6
+       6,     5,     8,     3,     0,     4,     3,     9,     3,     7,
+       3,     3,     6,    -1,    -1,    -1,     7
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     5,     8,     9,     3,     0,     4,     6
+       0,     5,    11,    12,     3,     0,     4,     6,     8,     3,
+       3,     7,     6,     3,     9,     3,     7
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,     7,     8,     9,     9
+       0,    10,    11,    12,    12,    12
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     2,     3,     1
+       0,     2,     2,     3,     5,     9
 };
 
 
@@ -1205,25 +1217,31 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 18 "./test.y" /* yacc.c:1646  */
-    {printf("yacc:phrase est : %s.\n", (yyvsp[-1].string));}
-#line 1211 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 3:
-#line 20 "./test.y" /* yacc.c:1646  */
-    { printf("yacc:LaPhrase, sujet=%s_verbe=%s\n", (yyvsp[-2].string), (yyvsp[0].string)); (yyval.string) = concatenationAvecEspace((yyvsp[-2].string), (yyvsp[0].string));}
-#line 1217 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 4:
 #line 21 "./test.y" /* yacc.c:1646  */
-    {printf("yacc:sujet=%s\n", (yyvsp[0].string));}
+    {printf("yacc:la phrase finale est : %s.\n", (yyvsp[-1].string));}
 #line 1223 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 3:
+#line 23 "./test.y" /* yacc.c:1646  */
+    { printf("yacc:LaPhrase, sujet=%s_verbe=%s\n", (yyvsp[-2].string), (yyvsp[0].string)); (yyval.string) = concatenationAvecEspace((yyvsp[-2].string), (yyvsp[0].string));}
+#line 1229 "y.tab.c" /* yacc.c:1646  */
+    break;
 
-#line 1227 "y.tab.c" /* yacc.c:1646  */
+  case 4:
+#line 24 "./test.y" /* yacc.c:1646  */
+    {printf("yacc:sujetVerbeComplement=%s_%s_%s\n", (yyvsp[-4].string), (yyvsp[-2].string), (yyvsp[0].string)); (yyval.string) = concatenationAvecEspace(concatenationAvecEspace((yyvsp[-4].string), (yyvsp[-2].string)), (yyvsp[0].string)); }
+#line 1235 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 5:
+#line 25 "./test.y" /* yacc.c:1646  */
+    {printf("yacc:sujetVerbeComplementNegation=%s_%s_%s_%s_%s\n", (yyvsp[-8].string), (yyvsp[-6].string), (yyvsp[-4].string), (yyvsp[-2].string), (yyvsp[0].string)); (yyval.string) = concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace((yyvsp[-8].string), (yyvsp[-4].string)), (yyvsp[-6].string)), (yyvsp[0].string)); }
+#line 1241 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+
+#line 1245 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1451,7 +1469,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 23 "./test.y" /* yacc.c:1906  */
+#line 27 "./test.y" /* yacc.c:1906  */
 
 
 int main(void){
