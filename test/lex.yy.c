@@ -467,10 +467,12 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "test.l"
-#line 2 "test.l"
+#line 1 "./test.l"
+#line 2 "./test.l"
 #include "y.tab.h"
-#line 474 "lex.yy.c"
+#include <string.h>
+char* dictionnaireFrancaisAnglais(char* motFrancais);
+#line 476 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -688,10 +690,10 @@ YY_DECL
 		}
 
 	{
-#line 5 "test.l"
+#line 7 "./test.l"
 
 
-#line 695 "lex.yy.c"
+#line 697 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -750,35 +752,35 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 7 "test.l"
-{printf("lex:sujet\n");yylval.string=yytext;return sujet;}
+#line 9 "./test.l"
+{printf("lex:sujet=%s\n", yytext);yylval.string=dictionnaireFrancaisAnglais(yytext);return sujet;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 8 "test.l"
-{printf("lex:verbe\n");yylval.string=yytext;return verbe;}
+#line 10 "./test.l"
+{printf("lex:verbe=%s\n", yytext);yylval.string=dictionnaireFrancaisAnglais(yytext);return verbe;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 9 "test.l"
+#line 11 "./test.l"
 {printf("lex:blanc\n");return blanc;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 10 "test.l"
+#line 12 "./test.l"
 {printf("lex:point\n");return point;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 11 "test.l"
+#line 13 "./test.l"
 {printf("lex:caractereInconnu\n");yyerror("lex-inconnu\n");return blanc;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 13 "test.l"
+#line 15 "./test.l"
 ECHO;
 	YY_BREAK
-#line 782 "lex.yy.c"
+#line 784 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1779,11 +1781,22 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 13 "test.l"
+#line 15 "./test.l"
 
 
 
 int yywrap(void){
 	return 1;
+}
+
+char* dictionnaireFrancaisAnglais(char* motFrancais){
+	printf("DansFct:%s\n", motFrancais);
+	if(strcmp(motFrancais, "Je")==0||strcmp(motFrancais, "je")==0){
+		return "I";
+	}else if(strcmp(motFrancais, "suis")==0){
+		return "am";
+	}else{
+		return "motInconnu";
+	}
 }
 

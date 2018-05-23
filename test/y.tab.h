@@ -62,7 +62,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 8 "test.y" /* yacc.c:1909  */
+#line 8 "./test.y" /* yacc.c:1909  */
 char* string; char car;
 
 #line 69 "y.tab.h" /* yacc.c:1909  */

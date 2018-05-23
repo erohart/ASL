@@ -18,6 +18,7 @@ char* concatenationAvecEspace(char* str1, char* str2);
 phrase 	: sujetVerbe point 	{printf("yacc:phrase est : %s.\n", $1);}
 	;
 sujetVerbe 	: sujet blanc verbe 	{ printf("yacc:LaPhrase, sujet=%s_verbe=%s\n", $1, $3); $$ = concatenationAvecEspace($1, $3);}
+		| sujet 	{printf("yacc:sujet=%s\n", $1);}
 		;
 %%
 

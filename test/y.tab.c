@@ -62,7 +62,7 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 1 "test.y" /* yacc.c:339  */
+#line 1 "./test.y" /* yacc.c:339  */
 
 void yyerror(char *s);
 #include <stdio.h>
@@ -121,7 +121,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 8 "test.y" /* yacc.c:355  */
+#line 8 "./test.y" /* yacc.c:355  */
 char* string; char car;
 
 #line 128 "y.tab.c" /* yacc.c:355  */
@@ -390,7 +390,7 @@ union yyalloc
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  3
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  3
+#define YYNRULES  4
 /* YYNSTATES -- Number of states.  */
 #define YYNSTATES  8
 
@@ -439,7 +439,7 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    18,    18,    20
+       0,    18,    18,    20,    21
 };
 #endif
 
@@ -484,7 +484,7 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     0,     0,     0,     0,     1,     2,     3
+       0,     4,     0,     0,     0,     1,     2,     3
 };
 
   /* YYPGOTO[NTERM-NUM].  */
@@ -522,13 +522,13 @@ static const yytype_uint8 yystos[] =
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,     7,     8,     9
+       0,     7,     8,     9,     9
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     2,     3
+       0,     2,     2,     3,     1
 };
 
 
@@ -1205,19 +1205,25 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 18 "test.y" /* yacc.c:1646  */
+#line 18 "./test.y" /* yacc.c:1646  */
     {printf("yacc:phrase est : %s.\n", (yyvsp[-1].string));}
 #line 1211 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 20 "test.y" /* yacc.c:1646  */
+#line 20 "./test.y" /* yacc.c:1646  */
     { printf("yacc:LaPhrase, sujet=%s_verbe=%s\n", (yyvsp[-2].string), (yyvsp[0].string)); (yyval.string) = concatenationAvecEspace((yyvsp[-2].string), (yyvsp[0].string));}
 #line 1217 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 4:
+#line 21 "./test.y" /* yacc.c:1646  */
+    {printf("yacc:sujet=%s\n", (yyvsp[0].string));}
+#line 1223 "y.tab.c" /* yacc.c:1646  */
+    break;
 
-#line 1221 "y.tab.c" /* yacc.c:1646  */
+
+#line 1227 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1445,7 +1451,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 22 "test.y" /* yacc.c:1906  */
+#line 23 "./test.y" /* yacc.c:1906  */
 
 
 int main(void){
