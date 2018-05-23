@@ -12,9 +12,9 @@ pre-build: clean $(BINDIR) $(OBJDIR) $(TARGET)
 $(TARGET): $(OBJDIR)/lex.yy.c $(OBJDIR)/y.tab.c
 	gcc $(OBJDIR)/lex.yy.c $(OBJDIR)/y.tab.c -o $(TARGET) -ly -ll
 $(OBJDIR)/y.tab.c:
-	yacc -d -y $(SRCDIR)/test.y -o $(OBJDIR)/y.tab.c
+	yacc -d -y $(SRCDIR)/traducteur.y -o $(OBJDIR)/y.tab.c
 $(OBJDIR)/lex.yy.c:
-	lex -o $(OBJDIR)/lex.yy.c $(SRCDIR)/test.l
+	lex -o $(OBJDIR)/lex.yy.c $(SRCDIR)/traducteur.l
 $(OBJDIR):
 	mkdir $(OBJDIR)
 $(BINDIR):
