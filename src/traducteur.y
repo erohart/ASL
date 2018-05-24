@@ -1,9 +1,12 @@
 %{
 void yyerror(char *s);
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 char* concatenationAvecEspace(char* str1, char* str2);
 char* concatenation(char* str1, char* str2);
+void retirerDernierCaractere(char* str);
+char* trad;
 %}
 
 %union {char* string; char car;}
@@ -22,8 +25,8 @@ char* concatenation(char* str1, char* str2);
 
 %%
 
-phrase 	: sujetVerbe point phrase	{printf("%s%s\n", $1, $2);}
-	| sautLigne 	// devrait permettre de pouvoir ecrire plusieures lignes mais ne fonctionne pas ...
+phrase 	: sujetVerbe point phrase	{retirerDernierCaractere($2); trad=concatenation($1, $2);printf("=%s=\n", trad);}
+	| sautLigne 	{printf("Fin : %s\n", trad);/*printf("fin\n");*/}// devrait permettre de pouvoir ecrire plusieures lignes mais ne fonctionne pas ...
 	;
 sujetVerbe 	: sujet blanc verbe 	{$$ = concatenationAvecEspace($1, $3);}
 		| sujet blanc verbe blanc complement	{$$ = concatenationAvecEspace(concatenationAvecEspace($1, $3), $5);}
@@ -39,6 +42,11 @@ int main(void){
 
 void yyerror(char *s){
 	fprintf(stderr, "erreur : %s\n", s);
+}
+
+void retirerDernierCaractere(char* str){
+	int l = strlen(str);
+	str[l-2] = '\0';
 }
 
 // concatene str1 et str2 en ajoutant un espace en les 2
