@@ -6,13 +6,14 @@ void yyerror(char *s);
 char* concatenationAvecEspace(char* str1, char* str2);
 char* concatenation(char* str1, char* str2);
 void retirerDernierCaractere(char* str);
-char* trad;
+char* trad = "";
 %}
 
 %union {char* string; char car;}
 %start phrase
 %token blanc
 %token sautLigne
+%token FIN
 %token <string> point
 %token <string> sujet
 %token <string> verbe
@@ -21,16 +22,21 @@ char* trad;
 %token <string> negationDebut
 %token <string> negationFin
 %token <string> temporalite
+%token <string> joker
 %type <string> sujetVerbe
 
 %%
 
-phrase 	: sujetVerbe point phrase	{retirerDernierCaractere($2); trad=concatenation($1, $2);printf("=%s=\n", trad);}
-	| sautLigne sujetVerbe point phrase	{retirerDernierCaractere($3);trad=concatenation($2, $3);printf("=%s=\n", trad);}
-	| sautLigne sautLigne	{printf("Fin : %s\n", trad);/*printf("fin\n");*/}// devrait permettre de pouvoir ecrire plusieures lignes mais ne fonctionne pas ...
+phrase 	: sujetVerbe point phrase	{retirerDernierCaractere($2); trad=concatenation(trad,concatenation($1, $2));printf("%s\n", trad);}
+	| sautLigne sujetVerbe point phrase	{retirerDernierCaractere($3);trad=concatenation(trad, concatenation($2, $3));printf("%s\n", trad);}
+	//| sautLigne sautLigne	{printf("Fin : %s\n", trad);/*printf("fin\n");*/}// devrait permettre de pouvoir ecrire plusieures lignes mais ne fonctionne pas ...
+	| sautLigne FIN sautLigne 	{printf("La traduction est : %s\n", trad);}
 	;
 sujetVerbe 	: sujet blanc verbe 	{$$ = concatenationAvecEspace($1, $3);}
 		| sujet blanc verbe blanc complement	{$$ = concatenationAvecEspace(concatenationAvecEspace($1, $3), $5);}
+		| sujet blanc verbe blanc adjectif	{$$ = concatenationAvecEspace(concatenationAvecEspace($1, $3), $5);}
+		| sujet blanc negationDebut blanc verbe blanc negationFin blanc adjectif 	{$$ = concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace($1, $5), $3), $9);}
+		| sujet blanc verbe blanc adjectif blanc temporalite	{$$ = concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace(concatenation($7, ","), $1), $3), $5);}
 		| sujet blanc verbe blanc complement blanc adjectif	{$$ = concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace($1, $3), $7),$5);}
 		| sujet blanc negationDebut blanc verbe blanc negationFin blanc complement blanc adjectif 	{$$ = concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace($1, $5), $3), $11),$9);}
 		| sujet blanc verbe blanc complement blanc adjectif blanc temporalite	{$$ =concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace(concatenation($9, ","), $1), $3), $7),$5);}
@@ -38,6 +44,7 @@ sujetVerbe 	: sujet blanc verbe 	{$$ = concatenationAvecEspace($1, $3);}
 %%
 
 int main(void){
+	printf("Ecrire \"$$$\" pour afficher la traduction\n");
 	return yyparse();
 }
 
@@ -54,15 +61,22 @@ void retirerDernierCaractere(char* str){
 char* concatenationAvecEspace(char* str1, char* str2){
 	int l1 = strlen(str1);
 	int l2 = strlen(str2);
-	char* res = malloc((l1+l2+2)*sizeof(char));
-	for(int k=0;k<l1;k++){
-		res[k] = str1[k];
+	char* res;
+	if(l1!=0 && l2!=0){
+		res = malloc((l1+l2+2)*sizeof(char));
+		for(int k=0;k<l1;k++){
+			res[k] = str1[k];
+		}
+		res[l1] = ' ';
+		for(int k=0;k<l2;k++){
+			res[k+l1+1] = str2[k];
+		}
+		res[l1+l2+2] = '\0';
+	}else{
+		res = malloc(2*sizeof(char));
+		res[0] = ' ';
+		res[1] = '\0';
 	}
-	res[l1] = ' ';
-	for(int k=0;k<l2;k++){
-		res[k+l1+1] = str2[k];
-	}
-	res[l1+l2+2] = '\0';
 	return res;
 }
 

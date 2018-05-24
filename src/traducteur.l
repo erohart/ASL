@@ -27,7 +27,8 @@ P ("."|"!"|"?")
 [ \t]	{return blanc;}
 \n 	{return sautLigne;}
 {P} 	{yylval.string=yytext;return point;}
-.	{yyerror("mot inconnu\n");yylval.string=yytext;return complement;}
+.	{yyerror("mot inconnu\n");yylval.string=yytext;return joker;}
+"$$$" 	{return FIN;}
 
 %%
 
@@ -80,6 +81,8 @@ char* dictionnaireFrancaisAnglais(char* motFrancais){
 		return "water";
 	}else if(strcmp(motFrancais, "gateau")==0){
 		return "cake";
+	}else if(strcmp(motFrancais, "crepe")==0){
+		return "pancake";
 	}else if(strcmp(motFrancais, "pomme")==0){
 		return "apple";
 	}else if(strcmp(motFrancais, "fleur")==0){
@@ -119,7 +122,7 @@ char* dictionnaireFrancaisAnglais(char* motFrancais){
 	}else if(strcmp(motFrancais, "ne")==0){
 		return "not";
 	}else{
-		char* res = malloc(strlen(motFrancais)*sizeof(char));
+		char* res = malloc((strlen(motFrancais)+1)*sizeof(char));
 		strcpy(res, motFrancais); // il faut renvoyer une copie car si le motFrancais est modifié par la suite cela modifiera aussi res. (hors motFrancais peut etre yytext)
 		return res;
 	}
