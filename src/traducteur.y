@@ -30,9 +30,9 @@ phrase 	: sujetVerbe point phrase	{retirerDernierCaractere($2); trad=concatenati
 	;
 sujetVerbe 	: sujet blanc verbe 	{$$ = concatenationAvecEspace($1, $3);}
 		| sujet blanc verbe blanc complement	{$$ = concatenationAvecEspace(concatenationAvecEspace($1, $3), $5);}
-		| sujet blanc verbe blanc adjectif	{$$ = concatenationAvecEspace(concatenationAvecEspace($1, $3), $5);}
-		| sujet blanc negationDebut blanc verbe blanc negationFin blanc adjectif 	{$$ = concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace($1, $5), $3), $9);}
-		| sujet blanc verbe blanc adjectif blanc temporalite	{$$ = concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace(concatenation($7, ","), $1), $3), $5);}
+		| sujet blanc verbe blanc complement blanc adjectif	{$$ = concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace($1, $3), $7),$5);}
+		| sujet blanc negationDebut blanc verbe blanc negationFin blanc complement blanc adjectif 	{$$ = concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace($1, $5), $3), $11),$9);}
+		| sujet blanc verbe blanc complement blanc adjectif blanc temporalite	{$$ =concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace(concatenation($9, ","), $1), $3), $7),$5);}
 		;
 %%
 
