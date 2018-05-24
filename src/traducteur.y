@@ -26,7 +26,8 @@ char* trad;
 %%
 
 phrase 	: sujetVerbe point phrase	{retirerDernierCaractere($2); trad=concatenation($1, $2);printf("=%s=\n", trad);}
-	| sautLigne 	{printf("Fin : %s\n", trad);/*printf("fin\n");*/}// devrait permettre de pouvoir ecrire plusieures lignes mais ne fonctionne pas ...
+	| sautLigne sujetVerbe point phrase	{retirerDernierCaractere($3);trad=concatenation($2, $3);printf("=%s=\n", trad);}
+	| sautLigne sautLigne	{printf("Fin : %s\n", trad);/*printf("fin\n");*/}// devrait permettre de pouvoir ecrire plusieures lignes mais ne fonctionne pas ...
 	;
 sujetVerbe 	: sujet blanc verbe 	{$$ = concatenationAvecEspace($1, $3);}
 		| sujet blanc verbe blanc complement	{$$ = concatenationAvecEspace(concatenationAvecEspace($1, $3), $5);}
