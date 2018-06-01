@@ -13,15 +13,17 @@ ND ("ne"|"not")
 NF ("pas")
 T ("hier"|"lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"dimanche"|"yesterday"|"monday"|"tuesday"|"wednesday"|"thursday"|"friday"|"saturday"|"sunday")
 P ("."|"!"|"?")
+A ("un"|"une"|"la"|"le"|"les"|"quelques"|"mon"|"ma"|"mes"|"ton"|"tes"|"ta"|"son"|"sa"|"ses"|"notre"|"nos"|"vos"|"votre")
 
 
 %%
 
-{S} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return sujet;}
+{S} {yylval.string=dictionnaireFrancaisAnglais(yytext);return sujet;}
 {V} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return verbe;}
 {Adj} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return adjectif;}
 {ND} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return negationDebut;}
 {NF} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return negationFin;}
+{A}     {yylval.string=dictionnaireFrancaisAnglais(yytext);return article;}
 {C} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return complement;}
 {T} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return temporalite;}
 [ \t]	{return blanc;}
@@ -121,6 +123,28 @@ char* dictionnaireFrancaisAnglais(char* motFrancais){
 		return "sunday";
 	}else if(strcmp(motFrancais, "ne")==0){
 		return "not";
+	}else if(strcmp(motFrancais, "un")==0){
+		return "a";
+	}else if(strcmp(motFrancais, "une")==0){
+		return "a";
+	}else if(strcmp(motFrancais, "le")==0){
+		return "the";
+	}else if(strcmp(motFrancais, "la")==0){
+		return "the";
+	}else if(strcmp(motFrancais, "des")==0){
+		return "";
+	}else if(strcmp(motFrancais, "quelques")==0){
+		return "somme";
+	}else if(strcmp(motFrancais, "mon")==0 || strcmp(motFrancais, "mes")==0 || strcmp(motFrancais, "ma")==0){
+		return "my";
+	}else if(strcmp(motFrancais, "son")==0 || strcmp(motFrancais, "ses")==0){
+		return "his";
+	}else if(strcmp(motFrancais, "sa")==0){
+		return "here";
+	}else if(strcmp(motFrancais, "notre")==0 || strcmp(motFrancais, "nos")==0){
+		return "us";
+	}else if(strcmp(motFrancais, "votre")==0 || strcmp(motFrancais, "vos")==0 || strcmp(motFrancais, "tes")==0 || strcmp(motFrancais, "ta")==0 ||strcmp(motFrancais, "ton")==0){
+		return "your";
 	}else{
 		char* res = malloc((strlen(motFrancais)+1)*sizeof(char));
 		strcpy(res, motFrancais); // il faut renvoyer une copie car si le motFrancais est modifié par la suite cela modifiera aussi res. (hors motFrancais peut etre yytext)

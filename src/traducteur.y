@@ -18,6 +18,7 @@ char* trad = "";
 %token <string> sujet
 %token <string> verbe
 %token <string> adjectif
+%token <string> article
 %token <string> complement
 %token <string> negationDebut
 %token <string> negationFin
@@ -33,13 +34,13 @@ phrase 	: sujetVerbe point phrase	{retirerDernierCaractere($2); trad=concatenati
 	| sautLigne FIN sautLigne 	{printf("La traduction est : %s\n", trad);}
 	;
 sujetVerbe 	: sujet blanc verbe 	{$$ = concatenationAvecEspace($1, $3);}
-		| sujet blanc verbe blanc complement	{$$ = concatenationAvecEspace(concatenationAvecEspace($1, $3), $5);}
+		| sujet blanc verbe blanc article blanc complement	{$$ = concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace($1, $3), $5), $7);}
 		| sujet blanc verbe blanc adjectif	{$$ = concatenationAvecEspace(concatenationAvecEspace($1, $3), $5);}
 		| sujet blanc negationDebut blanc verbe blanc negationFin blanc adjectif 	{$$ = concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace($1, $5), $3), $9);}
 		| sujet blanc verbe blanc adjectif blanc temporalite	{$$ = concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace(concatenation($7, ","), $1), $3), $5);}
-		| sujet blanc verbe blanc complement blanc adjectif	{$$ = concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace($1, $3), $7),$5);}
-		| sujet blanc negationDebut blanc verbe blanc negationFin blanc complement blanc adjectif 	{$$ = concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace($1, $5), $3), $11),$9);}
-		| sujet blanc verbe blanc complement blanc adjectif blanc temporalite	{$$ =concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace(concatenation($9, ","), $1), $3), $7),$5);}
+		| sujet blanc verbe blanc article blanc complement blanc adjectif	{$$ = concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace($1, $3), $9),$5),$7);}
+		| sujet blanc negationDebut blanc verbe blanc negationFin blanc article blanc complement blanc adjectif 	{$$ = concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace($1, $5), $3), $13),$9),$11);}
+		| sujet blanc verbe blanc article blanc complement blanc adjectif blanc temporalite	{$$ =concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace(concatenation($11, ","), $1), $3), $7),$5), $9);}
 		;
 %%
 
