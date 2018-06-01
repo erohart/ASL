@@ -31,6 +31,7 @@ A ("un"|"une"|"la"|"le"|"les"|"quelques"|"mon"|"ma"|"mes"|"ton"|"tes"|"ta"|"son"
 {P} 	{yylval.string=yytext;return point;}
 .	{yyerror("mot inconnu\n");yylval.string=yytext;return joker;}
 "$$$" 	{return FIN;}
+"debut\n" {return DEBUT;}
 
 %%
 

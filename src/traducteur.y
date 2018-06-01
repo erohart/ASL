@@ -7,6 +7,9 @@ char* concatenationAvecEspace(char* str1, char* str2);
 char* concatenation(char* str1, char* str2);
 void retirerDernierCaractere(char* str);
 char* trad = "";
+char* trad1 = "";
+char* trad2 = "";
+char* tradf = "";
 %}
 
 %union {char* string; char car;}
@@ -14,6 +17,7 @@ char* trad = "";
 %token blanc
 %token sautLigne
 %token FIN
+%token DEBUT
 %token <string> point
 %token <string> sujet
 %token <string> verbe
@@ -28,10 +32,11 @@ char* trad = "";
 
 %%
 
-phrase 	: sujetVerbe point phrase	{retirerDernierCaractere($2); trad=concatenation(trad,concatenation($1, $2));printf("%s\n", trad);}
-	| sautLigne sujetVerbe point phrase	{retirerDernierCaractere($3);trad=concatenation(trad, concatenation($2, $3));printf("%s\n", trad);}
+phrase 	: DEBUT sujetVerbe point phrase	{retirerDernierCaractere($3); trad=concatenation(concatenation(concatenation($2, $3),"\n"),trad);printf("%s \n", trad);}
+	| sujetVerbe point phrase	{retirerDernierCaractere($2); trad=concatenation(concatenation(concatenation($1, $2),"\n"),trad);}
+	| sautLigne sujetVerbe point phrase	{retirerDernierCaractere($3); trad=concatenation(concatenation(concatenation($2, $3),"\n"),trad); }
 	//| sautLigne sautLigne	{printf("Fin : %s\n", trad);/*printf("fin\n");*/}// devrait permettre de pouvoir ecrire plusieures lignes mais ne fonctionne pas ...
-	| sautLigne FIN sautLigne 	{printf("La traduction est : %s\n", trad);}
+	| sautLigne FIN sautLigne 	{printf("La traduction est : \n");}
 	;
 sujetVerbe 	: sujet blanc verbe 	{$$ = concatenationAvecEspace($1, $3);}
 		| sujet blanc verbe blanc article blanc complement	{$$ = concatenationAvecEspace(concatenationAvecEspace(concatenationAvecEspace($1, $3), $5), $7);}
@@ -45,7 +50,7 @@ sujetVerbe 	: sujet blanc verbe 	{$$ = concatenationAvecEspace($1, $3);}
 %%
 
 int main(void){
-	printf("Ecrire \"$$$\" pour afficher la traduction\n");
+	printf("Ecrire \"debut\" puis appuyer sur enter pour commencer la traduction et ecrire \"$$$\" pour afficher la traduction.\n");
 	return yyparse();
 }
 
