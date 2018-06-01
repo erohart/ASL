@@ -7,9 +7,6 @@ char* concatenationAvecEspace(char* str1, char* str2);
 char* concatenation(char* str1, char* str2);
 void retirerDernierCaractere(char* str);
 char* trad = "";
-char* trad1 = "";
-char* trad2 = "";
-char* tradf = "";
 %}
 
 %union {char* string; char car;}
@@ -32,7 +29,7 @@ char* tradf = "";
 
 %%
 
-phrase 	: DEBUT sujetVerbe point phrase	{retirerDernierCaractere($3); trad=concatenation(concatenation(concatenation($2, $3),"\n"),trad);printf("%s \n", trad);}
+phrase 	: DEBUT sujetVerbe point phrase	{retirerDernierCaractere($3); trad=concatenation(concatenation(concatenation($2, $3),"\n"),trad);printf("%s \n", trad);return 1;}
 	| sujetVerbe point phrase	{retirerDernierCaractere($2); trad=concatenation(concatenation(concatenation($1, $2),"\n"),trad);}
 	| sautLigne sujetVerbe point phrase	{retirerDernierCaractere($3); trad=concatenation(concatenation(concatenation($2, $3),"\n"),trad); }
 	//| sautLigne sautLigne	{printf("Fin : %s\n", trad);/*printf("fin\n");*/}// devrait permettre de pouvoir ecrire plusieures lignes mais ne fonctionne pas ...
