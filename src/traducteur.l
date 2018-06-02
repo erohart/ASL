@@ -28,7 +28,7 @@ A ("un"|"une"|"la"|"le"|"les"|"quelques"|"mon"|"ma"|"mes"|"ton"|"tes"|"ta"|"son"
 {T} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return temporalite;}
 [ \t]	{return blanc;}
 \n 	{return sautLigne;}
-{P} 	{yylval.string=yytext;return point;}
+{P} 	{yylval.car=yytext[0];return point;}
 .	{yyerror("mot inconnu\n");yylval.string=yytext;return joker;}
 "$$$" 	{return FIN;}
 "debut\n" {return DEBUT;}
