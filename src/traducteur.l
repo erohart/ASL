@@ -26,7 +26,7 @@ A (?i:"un"|"une"|"la"|"le"|"les"|"quelques"|"mon"|"ma"|"mes"|"ton"|"tes"|"ta"|"s
 {ND} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return negationDebut;}
 {NF} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return negationFin;}
 {A}     {yylval.string=dictionnaireFrancaisAnglais(yytext);return article;}
-{C} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return complement;}
+{C} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return nom;}
 {T} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return temporalite;}
 [ \t]	{return blanc;}
 \n 	{return sautLigne;}

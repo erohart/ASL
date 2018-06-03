@@ -21,7 +21,7 @@ char* trad = "";
 %token <string> verbe
 %token <string> adjectif
 %token <string> article
-%token <string> complement
+%token <string> nom
 %token <string> negationDebut
 %token <string> negationFin
 %token <string> temporalite
@@ -60,7 +60,7 @@ sujetPredicat 	: sujet blanc predicat 	{
 										str = concatenationAvecEspace(str, $3);
 										$$ = concatenationAvecEspace(str, $5);
 									}
-		| sujet blanc verbe blanc article blanc complement blanc adjectif blanc temporalite	{
+		| sujet blanc verbe blanc article blanc nom blanc adjectif blanc temporalite	{
 														char* str = concatenation($11, ",");
 														str = concatenationAvecEspace(str, $1);
 														str = concatenationAvecEspace(str, $3);
@@ -72,7 +72,7 @@ sujetPredicat 	: sujet blanc predicat 	{
 								char* str = concatenation($1, ",");
 								$$ = concatenationAvecEspace(str, $3);
 							}
-		| article blanc complement blanc predicat 	{
+		| article blanc nom blanc predicat 	{
 								char* str = concatenationAvecEspace($1, $3);
 								$$ = concatenationAvecEspace(str, $5);
 							}
@@ -81,7 +81,7 @@ sujetPredicat 	: sujet blanc predicat 	{
 predicat 	: verbe 	{
 					$$ = $1;
 				}
-		| verbe blanc article blanc complement 	{
+		| verbe blanc article blanc nom 	{
 								char* str = concatenationAvecEspace($1, $3);
 								$$ = concatenationAvecEspace(str, $5);
 							}
@@ -92,18 +92,18 @@ predicat 	: verbe 	{
 											char* str = concatenationAvecEspace($3, $1);
 											$$ = concatenationAvecEspace(str, $7);
 										}
-		| verbe blanc article blanc complement blanc adjectif 	{
+		| verbe blanc article blanc nom blanc adjectif 	{
 										char* str = concatenationAvecEspace($1, $3);
 										str = concatenationAvecEspace(str, $7);
 										$$ = concatenationAvecEspace(str, $5);
 									}
-		| negationDebut blanc verbe blanc negationFin blanc article blanc complement blanc adjectif 	{
+		| negationDebut blanc verbe blanc negationFin blanc article blanc nom blanc adjectif 	{
 															char* str = concatenationAvecEspace($5, $3);
 															str = concatenationAvecEspace(str, $7);
 															str = concatenationAvecEspace(str, $11);
 															$$ = concatenationAvecEspace(str, $9);
 														}
-		| negationDebut blanc verbe blanc negationFin blanc article blanc complement 	{
+		| negationDebut blanc verbe blanc negationFin blanc article blanc nom 	{
 													char* str = concatenationAvecEspace($5, $3);
 													str = concatenationAvecEspace(str, $7);
 													$$ = concatenationAvecEspace(str, $9);
