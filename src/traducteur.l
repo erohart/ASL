@@ -1,19 +1,21 @@
 %{
 #include "y.tab.h"
 #include <string.h>
+#include <ctype.h>
 void yyerror(char *s);
 char* dictionnaireFrancaisAnglais(char* motFrancais);
+int comparaisonSansMajuscule(char* str1, char* str2);
 %}
 
-S ("je"|"Je"|"tu"|"Tu"|"il"|"Il"|"elle"|"Elle"|"on"|"On"|"nous"|"Nous"|"vous"|"Vous"|"ils"|"Ils"|"I"|"you"|"You"|"he"|"He"|"she"|"She"|"it"|"It"|"we"|"We"|"they"|"They")
-V ("suis"|"es"|"est"|"sommes"|"etes"|"sont"|"ai"|"as"|"a"|"avons"|"avez"|"ont"|"mange"|"manges"|"mangeons"|"mangez"|"mangent"|"bois"|"boit"|"buvons"|"buvez"|"boivent"|"am"|"are"|"is"|"have"|"has"|"eat"|"eats"|"drink"|"drinks")
-C ("eau"|"gateau"|"crepe"|"pomme"|"fleur"|"water"|"pancake"|"cake"|"apple"|"flower")
-Adj ("beau"|"delicieux"|"rouge"|"bleu"|"jaune"|"heureux"|"beautiful"|"delicious"|"red"|"blue"|"yellow")
+S (?i:"je"|"tu"|"il"|"elle"|"on"|"nous"|"vous"|"ils")
+V ("suis"|"es"|"est"|"sommes"|"etes"|"sont"|"ai"|"as"|"a"|"avons"|"avez"|"ont"|"mange"|"manges"|"mangeons"|"mangez"|"mangent"|"bois"|"boit"|"buvons"|"buvez"|"boivent")
+C ("eau"|"gateau"|"crepe"|"pomme")
+Adj ("beau"|"delicieux"|"rouge"|"bleu"|"jaune"|"heureux")
 ND ("ne"|"not")
 NF ("pas")
-T ("hier"|"lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"dimanche"|"yesterday"|"monday"|"tuesday"|"wednesday"|"thursday"|"friday"|"saturday"|"sunday")
+T (?i:"hier"|"lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"dimanche"|"demain"|"hier"|"aujourd'hui")
 P ("."|"!"|"?")
-A ("un"|"une"|"la"|"le"|"les"|"quelques"|"mon"|"ma"|"mes"|"ton"|"tes"|"ta"|"son"|"sa"|"ses"|"notre"|"nos"|"vos"|"votre")
+A (?i:"un"|"une"|"la"|"le"|"les"|"quelques"|"mon"|"ma"|"mes"|"ton"|"tes"|"ta"|"son"|"sa"|"ses"|"notre"|"nos"|"vos"|"votre")
 
 
 %%
@@ -29,7 +31,7 @@ A ("un"|"une"|"la"|"le"|"les"|"quelques"|"mon"|"ma"|"mes"|"ton"|"tes"|"ta"|"son"
 [ \t]	{return blanc;}
 \n 	{return sautLigne;}
 {P} 	{yylval.car=yytext[0];return point;}
-.	{yyerror("mot inconnu\n");yylval.string=yytext;return joker;}
+.	{printf("mot inconnu -%s-\n", yytext);yylval.car=yytext[0];return joker;}
 "$$$" 	{return FIN;}
 "debut\n" {return DEBUT;}
 
@@ -39,8 +41,20 @@ int yywrap(void){
 	return 1;
 }
 
+// Demain et demain seront égaux
+int comparaisonSansMajuscule(char* str1, char* str2){
+	if(strcmp(str1, str2)==0){
+		return 0;
+	}else{
+		char* str = malloc(strlen(str2)*sizeof(char));
+		strcpy(str, str1);		
+		str[0] = tolower(str1[0]);
+		return strcmp(str2, str);
+	}
+}
+
 char* dictionnaireFrancaisAnglais(char* motFrancais){
-	if(strcmp(motFrancais, "Je")==0||strcmp(motFrancais, "je")==0){
+	if(comparaisonSansMajuscule(motFrancais, "je")==0){
 		return "I";
 	}else if(strcmp(motFrancais, "tu")==0 || strcmp(motFrancais, "vous")==0){
 		return "you";
@@ -62,89 +76,95 @@ char* dictionnaireFrancaisAnglais(char* motFrancais){
 		return "they";
 	}else if(strcmp(motFrancais, "Ils")==0){
 		return "They";
-	}else if(strcmp(motFrancais, "es")==0 || strcmp(motFrancais, "sommes")==0 || strcmp(motFrancais, "etes")==0 || strcmp(motFrancais, "sont")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "es")==0 || comparaisonSansMajuscule(motFrancais, "sommes")==0 || comparaisonSansMajuscule(motFrancais, "etes")==0 || comparaisonSansMajuscule(motFrancais, "sont")==0){
 		return "are";
-	}else if(strcmp(motFrancais, "suis")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "suis")==0){
 		return "am";
-	}else if(strcmp(motFrancais, "est")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "est")==0){
 		return "is";
-	}else if(strcmp(motFrancais, "ai")==0 || strcmp(motFrancais, "as")==0 || strcmp(motFrancais, "avons")==0 || strcmp(motFrancais, "avez")==0 || strcmp(motFrancais, "ont")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "ai")==0 || comparaisonSansMajuscule(motFrancais, "as")==0 || comparaisonSansMajuscule(motFrancais, "avons")==0 || comparaisonSansMajuscule(motFrancais, "avez")==0 || comparaisonSansMajuscule(motFrancais, "ont")==0){
 		return "have";
-	}else if(strcmp(motFrancais, "a")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "a")==0){
 		return "has";
-	}else if(strcmp(motFrancais, "mange")==0 || strcmp(motFrancais, "manges")==0 || strcmp(motFrancais, "mangeons")==0 || strcmp(motFrancais, "mangez")==0 || strcmp(motFrancais, "mangent")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "mange")==0 || comparaisonSansMajuscule(motFrancais, "manges")==0 || comparaisonSansMajuscule(motFrancais, "mangeons")==0 || comparaisonSansMajuscule(motFrancais, "mangez")==0 || comparaisonSansMajuscule(motFrancais, "mangent")==0){
 		return "eat";
-	}else if(strcmp(motFrancais, "mange")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "mange")==0){
 		return "eats"; // ne sera jamais utilisé puisque la même condition est juste au dessus. Il faudrait connaitre le contexte (le sujet) pour traduire correctement.
-	}else if(strcmp(motFrancais, "bois")==0 || strcmp(motFrancais, "buvons")==0 || strcmp(motFrancais, "buvez")==0 || strcmp(motFrancais, "boivent")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "bois")==0 || comparaisonSansMajuscule(motFrancais, "buvons")==0 || comparaisonSansMajuscule(motFrancais, "buvez")==0 || comparaisonSansMajuscule(motFrancais, "boivent")==0){
 		return "drink";
-	}else if(strcmp(motFrancais, "boit")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "boit")==0){
 		return "drinks";
-	}else if(strcmp(motFrancais, "eau")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "eau")==0){
 		return "water";
-	}else if(strcmp(motFrancais, "gateau")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "gateau")==0){
 		return "cake";
-	}else if(strcmp(motFrancais, "crepe")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "crepe")==0){
 		return "pancake";
-	}else if(strcmp(motFrancais, "pomme")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "pomme")==0){
 		return "apple";
-	}else if(strcmp(motFrancais, "fleur")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "fleur")==0){
 		return "flower";
-	}else if(strcmp(motFrancais, "beau")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "beau")==0){
 		return "beautiful";
-	}else if(strcmp(motFrancais, "delicieux")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "delicieux")==0){
 		return "delicious";
-	}else if(strcmp(motFrancais, "rouge")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "rouge")==0){
 		return "red";
-	}else if(strcmp(motFrancais, "bleu")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "bleu")==0){
 		return "blue";
-	}else if(strcmp(motFrancais, "jaune")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "jaune")==0){
 		return "yellow";
-	}else if(strcmp(motFrancais, "heureux")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "heureux")==0){
 		return "happy";
-	}else if(strcmp(motFrancais, "delicieux")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "delicieux")==0){
 		return "delicious";
-	}else if(strcmp(motFrancais, "ne")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "ne")==0){
 		return "not";
-	}else if(strcmp(motFrancais, "hier")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "hier")==0){
 		return "yesterday";
-	}else if(strcmp(motFrancais, "lundi")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "lundi")==0){
 		return "monday";
-	}else if(strcmp(motFrancais, "mardi")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "mardi")==0){
 		return "tuesday";
-	}else if(strcmp(motFrancais, "mercredi")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "mercredi")==0){
 		return "wednesday";
-	}else if(strcmp(motFrancais, "jeudi")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "jeudi")==0){
 		return "thursday";
-	}else if(strcmp(motFrancais, "vendredi")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "vendredi")==0){
 		return "friday";
-	}else if(strcmp(motFrancais, "samedi")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "samedi")==0){
 		return "saturday";
-	}else if(strcmp(motFrancais, "dimanche")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "dimanche")==0){
 		return "sunday";
-	}else if(strcmp(motFrancais, "ne")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "demain")==0){
+		return "tomorrow";
+	}else if(comparaisonSansMajuscule(motFrancais, "hier")==0){
+		return "yesterday";
+	}else if(comparaisonSansMajuscule(motFrancais, "aujourd'hui")==0){
+		return "today";
+	}else if(comparaisonSansMajuscule(motFrancais, "ne")==0){
 		return "not";
-	}else if(strcmp(motFrancais, "un")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "un")==0){
 		return "a";
-	}else if(strcmp(motFrancais, "une")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "une")==0){
 		return "a";
-	}else if(strcmp(motFrancais, "le")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "le")==0){
 		return "the";
-	}else if(strcmp(motFrancais, "la")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "la")==0){
 		return "the";
-	}else if(strcmp(motFrancais, "des")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "des")==0){
 		return "";
-	}else if(strcmp(motFrancais, "quelques")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "quelques")==0){
 		return "somme";
-	}else if(strcmp(motFrancais, "mon")==0 || strcmp(motFrancais, "mes")==0 || strcmp(motFrancais, "ma")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "mon")==0 || comparaisonSansMajuscule(motFrancais, "mes")==0 || comparaisonSansMajuscule(motFrancais, "ma")==0){
 		return "my";
-	}else if(strcmp(motFrancais, "son")==0 || strcmp(motFrancais, "ses")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "son")==0 || comparaisonSansMajuscule(motFrancais, "ses")==0){
 		return "his";
-	}else if(strcmp(motFrancais, "sa")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "sa")==0){
 		return "here";
-	}else if(strcmp(motFrancais, "notre")==0 || strcmp(motFrancais, "nos")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "notre")==0 || comparaisonSansMajuscule(motFrancais, "nos")==0){
 		return "us";
-	}else if(strcmp(motFrancais, "votre")==0 || strcmp(motFrancais, "vos")==0 || strcmp(motFrancais, "tes")==0 || strcmp(motFrancais, "ta")==0 ||strcmp(motFrancais, "ton")==0){
+	}else if(comparaisonSansMajuscule(motFrancais, "votre")==0 || comparaisonSansMajuscule(motFrancais, "vos")==0 || comparaisonSansMajuscule(motFrancais, "tes")==0 || comparaisonSansMajuscule(motFrancais, "ta")==0 ||comparaisonSansMajuscule(motFrancais, "ton")==0){
 		return "your";
 	}else{
 		char* res = malloc((strlen(motFrancais)+1)*sizeof(char));
@@ -152,3 +172,4 @@ char* dictionnaireFrancaisAnglais(char* motFrancais){
 		return res;
 	}
 }
+
