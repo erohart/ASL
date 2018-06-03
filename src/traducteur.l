@@ -11,29 +11,31 @@ S (?i:"je"|"tu"|"il"|"elle"|"on"|"nous"|"vous"|"ils")
 V ("suis"|"es"|"est"|"sommes"|"etes"|"sont"|"ai"|"as"|"a"|"avons"|"avez"|"ont"|"mange"|"manges"|"mangeons"|"mangez"|"mangent"|"bois"|"boit"|"buvons"|"buvez"|"boivent")
 C ("eau"|"gateau"|"crepe"|"pomme"|"chat"|"chien")
 Adj ("beau"|"delicieux"|"rouge"|"bleu"|"jaune"|"heureux")
-ND ("ne"|"not")
-NF ("pas")
+ND ("ne")
+NF ("pas"|"jamais")
 T (?i:"hier"|"lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"dimanche"|"demain"|"hier"|"aujourd'hui")
 P ("."|"!"|"?")
-A (?i:"un"|"une"|"la"|"le"|"les"|"quelques"|"mon"|"ma"|"mes"|"ton"|"tes"|"ta"|"son"|"sa"|"ses"|"notre"|"nos"|"vos"|"votre")
+A (?i:"un"|"une"|"la"|"le"|"les"|"quelques"|"mon"|"ma"|"mes"|"ton"|"tes"|"ta"|"son"|"sa"|"ses"|"notre"|"nos"|"vos"|"votre"|"de")
+Sep ("et"|","|"mais")
 
 
 %%
 
-{S} {yylval.string=dictionnaireFrancaisAnglais(yytext);return sujet;}
-{V} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return verbe;}
-{Adj} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return adjectif;}
-{ND} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return negationDebut;}
-{NF} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return negationFin;}
-{A}     {yylval.string=dictionnaireFrancaisAnglais(yytext);return article;}
-{C} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return complement;}
-{T} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return temporalite;}
-[ \t]	{return blanc;}
-\n 	{return sautLigne;}
-{P} 	{yylval.car=yytext[0];return point;}
-.	{yylval.car=yytext[0];return joker;}
+{S} 	{printf(" s ");yylval.string=dictionnaireFrancaisAnglais(yytext);return sujet;}
+{V} 	{printf(" v ");yylval.string=dictionnaireFrancaisAnglais(yytext);return verbe;}
+{Adj} 	{printf(" adj ");yylval.string=dictionnaireFrancaisAnglais(yytext);return adjectif;}
+{ND} 	{printf(" nd ");yylval.string=dictionnaireFrancaisAnglais(yytext);return negationDebut;}
+{NF} 	{printf(" nf ");yylval.string=dictionnaireFrancaisAnglais(yytext);return negationFin;}
+{A}     {printf(" a ");yylval.string=dictionnaireFrancaisAnglais(yytext);return article;}
+{C} 	{printf(" c ");yylval.string=dictionnaireFrancaisAnglais(yytext);return complement;}
+{T} 	{printf(" t ");yylval.string=dictionnaireFrancaisAnglais(yytext);return temporalite;}
+{Sep} 	{printf(" sep -%s-", yytext);yylval.string=dictionnaireFrancaisAnglais(yytext);return separationSubordonnee;}
+[ \t]	{printf(" b ");return blanc;}
+\n 	{printf(" \\n \n");return sautLigne;}
+{P} 	{printf(" p ");yylval.car=yytext[0];return point;}
+.	{printf(" . ");yylval.car=yytext[0];return joker;}
 "$$$" 	{return FIN;}
-"debut\n" {return DEBUT;}
+"debut\n" 	{return DEBUT;}
 
 %%
 
@@ -146,8 +148,10 @@ char* dictionnaireFrancaisAnglais(char* motFrancais){
 		return "yesterday";
 	}else if(comparaisonSansMajuscule(motFrancais, "aujourd'hui")==0){
 		return "today";
-	}else if(comparaisonSansMajuscule(motFrancais, "ne")==0){
-		return "not";
+	}else if(comparaisonSansMajuscule(motFrancais, "pas")==0){
+		return "don't";
+	}else if(comparaisonSansMajuscule(motFrancais, "jamais")==0){
+		return "never";
 	}else if(comparaisonSansMajuscule(motFrancais, "un")==0){
 		return "a";
 	}else if(comparaisonSansMajuscule(motFrancais, "une")==0){
@@ -170,6 +174,12 @@ char* dictionnaireFrancaisAnglais(char* motFrancais){
 		return "us";
 	}else if(comparaisonSansMajuscule(motFrancais, "votre")==0 || comparaisonSansMajuscule(motFrancais, "vos")==0 || comparaisonSansMajuscule(motFrancais, "tes")==0 || comparaisonSansMajuscule(motFrancais, "ta")==0 ||comparaisonSansMajuscule(motFrancais, "ton")==0){
 		return "your";
+	}else if(comparaisonSansMajuscule(motFrancais, "de")==0){
+		return "";
+	}else if(comparaisonSansMajuscule(motFrancais, "et")==0){
+		return "and";
+	}else if(comparaisonSansMajuscule(motFrancais, "mais")==0){
+		return "but";
 	}else{
 		char* res = malloc((strlen(motFrancais)+1)*sizeof(char));
 		strcpy(res, motFrancais); // il faut renvoyer une copie car si le motFrancais est modifié par la suite cela modifiera aussi res. (hors motFrancais peut etre yytext)
