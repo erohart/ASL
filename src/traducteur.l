@@ -21,19 +21,19 @@ Sep ("et"|","|"mais")
 
 %%
 
-{S} 	{printf(" s ");yylval.string=dictionnaireFrancaisAnglais(yytext);return sujet;}
-{V} 	{printf(" v ");yylval.string=dictionnaireFrancaisAnglais(yytext);return verbe;}
-{Adj} 	{printf(" adj ");yylval.string=dictionnaireFrancaisAnglais(yytext);return adjectif;}
-{ND} 	{printf(" nd ");yylval.string=dictionnaireFrancaisAnglais(yytext);return negationDebut;}
-{NF} 	{printf(" nf ");yylval.string=dictionnaireFrancaisAnglais(yytext);return negationFin;}
-{A}     {printf(" a ");yylval.string=dictionnaireFrancaisAnglais(yytext);return article;}
-{C} 	{printf(" c ");yylval.string=dictionnaireFrancaisAnglais(yytext);return complement;}
-{T} 	{printf(" t ");yylval.string=dictionnaireFrancaisAnglais(yytext);return temporalite;}
-{Sep} 	{printf(" sep -%s-", yytext);yylval.string=dictionnaireFrancaisAnglais(yytext);return separationSubordonnee;}
-[ \t]	{printf(" b ");return blanc;}
-\n 	{printf(" \\n \n");return sautLigne;}
-{P} 	{printf(" p ");yylval.car=yytext[0];return point;}
-.	{printf(" . ");yylval.car=yytext[0];return joker;}
+{S} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return sujet;}
+{V} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return verbe;}
+{Adj} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return adjectif;}
+{ND} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return negationDebut;}
+{NF} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return negationFin;}
+{A}     {yylval.string=dictionnaireFrancaisAnglais(yytext);return article;}
+{C} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return complement;}
+{T} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return temporalite;}
+{Sep} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return separationSubordonnee;}
+[ \t]	{return blanc;}
+\n 	{return sautLigne;}
+{P} 	{yylval.car=yytext[0];return point;}
+.	{yylval.car=yytext[0];return joker;}
 "$$$" 	{return FIN;}
 "debut\n" 	{return DEBUT;}
 
