@@ -9,7 +9,7 @@ int comparaisonSansMajuscule(char* str1, char* str2);
 
 S (?i:"je"|"tu"|"il"|"elle"|"on"|"nous"|"vous"|"ils")
 V ("suis"|"es"|"est"|"sommes"|"etes"|"sont"|"ai"|"as"|"a"|"avons"|"avez"|"ont"|"mange"|"manges"|"mangeons"|"mangez"|"mangent"|"bois"|"boit"|"buvons"|"buvez"|"boivent")
-C ("eau"|"gateau"|"crepe"|"pomme")
+C ("eau"|"gateau"|"crepe"|"pomme"|"chat"|"chien")
 Adj ("beau"|"delicieux"|"rouge"|"bleu"|"jaune"|"heureux")
 ND ("ne"|"not")
 NF ("pas")
@@ -102,6 +102,10 @@ char* dictionnaireFrancaisAnglais(char* motFrancais){
 		return "pancake";
 	}else if(comparaisonSansMajuscule(motFrancais, "pomme")==0){
 		return "apple";
+	}else if(comparaisonSansMajuscule(motFrancais, "chat")==0){
+		return "cat";
+	}else if(comparaisonSansMajuscule(motFrancais, "chien")==0){
+		return "dog";
 	}else if(comparaisonSansMajuscule(motFrancais, "fleur")==0){
 		return "flower";
 	}else if(comparaisonSansMajuscule(motFrancais, "beau")==0){

@@ -70,9 +70,9 @@ sujetPredicat 	:sujet blanc predicat 	{
 														$$ = concatenationAvecEspace(etape5, $9);
 													}
 		| temporalite blanc sujetPredicat 	{
-							char* etape1 = concatenation($1, ",");
-							$$ = concatenationAvecEspace(etape1, $3);
-						}
+								char* etape1 = concatenation($1, ",");
+								$$ = concatenationAvecEspace(etape1, $3);
+							}
 		| article blanc complement blanc predicat 	{
 								char* etape1 = concatenationAvecEspace($1, $3);
 								$$ = concatenationAvecEspace(etape1, $5);
@@ -94,10 +94,10 @@ predicat 	: verbe 	{
 											$$ = concatenationAvecEspace(etape1, $7);
 										}
 		| verbe blanc article blanc complement blanc adjectif 	{
-									char* etape1 = concatenationAvecEspace($1, $3);
-									char* etape2 = concatenationAvecEspace(etape1, $7);
-									$$ = concatenationAvecEspace(etape2, $5);
-								}
+										char* etape1 = concatenationAvecEspace($1, $3);
+										char* etape2 = concatenationAvecEspace(etape1, $7);
+										$$ = concatenationAvecEspace(etape2, $5);
+									}
 		| negationDebut blanc verbe blanc negationFin blanc article blanc complement blanc adjectif 	{
 															char* etape1 = concatenationAvecEspace($3, $5);
 															char* etape2 = concatenationAvecEspace(etape1, $7);
