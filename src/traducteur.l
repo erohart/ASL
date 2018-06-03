@@ -9,15 +9,15 @@ int comparaisonSansMajuscule(char* str1, char* str2);
 /* ?i permet de reconnaitre le mot même s'il y a des majuscules*/
 S (?i:"je"|"tu"|"il"|"elle"|"on"|"nous"|"vous"|"ils")
 V ("suis"|"es"|"est"|"sommes"|"etes"|"sont"|"ai"|"as"|"a"|"avons"|"avez"|"ont"|"mange"|"manges"|"mangeons"|"mangez"|"mangent"|"bois"|"boit"|"buvons"|"buvez"|"boivent")
-C ("eau"|"gateau"|"crepe"|"pomme"|"chat"|"chien")
-Adj ("beau"|"delicieux"|"rouge"|"bleu"|"jaune"|"heureux")
+N ("eau"|"gateau"|"crepe"|"pomme"|"chat"|"chien")
+Adj ("beau"|"delicieux"|"rouge"|"bleu"|"jaune"|"noir"|"heureux")
 ND ("ne")
 NF ("pas"|"jamais")
 T (?i:"hier"|"lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"dimanche"|"demain"|"hier"|"aujourd'hui")
 P ("."|"!"|"?")
 A (?i:"un"|"une"|"la"|"le"|"les"|"quelques"|"mon"|"ma"|"mes"|"ton"|"tes"|"ta"|"son"|"sa"|"ses"|"notre"|"nos"|"vos"|"votre"|"de")
 
-
+/* Dans le code ci-dessous, yylval.string et yylval.car sont les mots récupérés par yacc dans les variables $1, $2 etc */
 %%
 
 {S} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return sujet;}
@@ -26,7 +26,7 @@ A (?i:"un"|"une"|"la"|"le"|"les"|"quelques"|"mon"|"ma"|"mes"|"ton"|"tes"|"ta"|"s
 {ND} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return negationDebut;}
 {NF} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return negationFin;}
 {A}     {yylval.string=dictionnaireFrancaisAnglais(yytext);return article;}
-{C} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return nom;}
+{N} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return nom;}
 {T} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return temporalite;}
 [ \t]	{return blanc;}
 \n 	{return sautLigne;}
@@ -41,7 +41,7 @@ int yywrap(void){
 	return 1;
 }
 
-// Demain et demain seront égaux
+// "Demain" et "demain" seront égaux
 int comparaisonSansMajuscule(char* str1, char* str2){
 	if(strcmp(str1, str2)==0){
 		return 0;
@@ -53,6 +53,8 @@ int comparaisonSansMajuscule(char* str1, char* str2){
 	}
 }
 
+// Donne la traduction du motFrancais si elle est dans le dictionnaire
+// Si elle n'est pas dans le dictionnaire, la fonction renvoie le motFrancais
 char* dictionnaireFrancaisAnglais(char* motFrancais){
 	if(comparaisonSansMajuscule(motFrancais, "je")==0){
 		return "I";
@@ -118,6 +120,8 @@ char* dictionnaireFrancaisAnglais(char* motFrancais){
 		return "blue";
 	}else if(comparaisonSansMajuscule(motFrancais, "jaune")==0){
 		return "yellow";
+	}else if(comparaisonSansMajuscule(motFrancais, "noir")==0){
+		return "black";
 	}else if(comparaisonSansMajuscule(motFrancais, "heureux")==0){
 		return "happy";
 	}else if(comparaisonSansMajuscule(motFrancais, "delicieux")==0){

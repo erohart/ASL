@@ -3,13 +3,16 @@ void yyerror(char *s);
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-char* concatenationAvecEspace(char* str1, char* str2);
-char* concatenation(char* str1, char* str2);
-char* concatenationChar(char* str, char c);
-char* concatenationChar2(char c, char* str);
-char* trad = "";
-%}
+// Des fonctions permettant de concaténer les différents éléments des phrases pour en faire une phrase complète
+char* concatenationAvecEspace(char* str1, char* str2);// concatène une chaine avec une autre en ajoutant un espace entre les deux
+char* concatenation(char* str1, char* str2);// concatène les deux chaines
+char* concatenationChar(char* str, char c);// concatène une chaine et un caractère
+char* concatenationChar2(char c, char* str);// concatène un caractère et une chaine
 
+char* trad = ""; // la chaine de caractère qui contiendra la traduction finale
+%}
+/* string et car sont les variables qui sont modifiées dans Lex avec yylval.string ou yylval.car */
+/* Les token peuvent prendre string ou car comme type et contenir les mots identifiés et traduits par Lex */
 %union {char* string; char car;}
 %start phrase
 %token blanc
