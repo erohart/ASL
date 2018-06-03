@@ -25,7 +25,6 @@ char* trad = "";
 %token <string> negationDebut
 %token <string> negationFin
 %token <string> temporalite
-%token <string> separationSubordonnee
 %token <car> joker
 %type <string> sujetPredicat
 %type <string> predicat
@@ -113,7 +112,7 @@ predicat 	: verbe 	{
 %%
 
 int main(void){
-	printf("Ecrire \"debut\" puis appuyer sur enter pour commencer la traduction et ecrire \"$$$\" pour afficher la traduction.\n");
+	printf("Ecrire \"debut\" puis appuyer sur enter pour commencer la traduction et ecrire \"fin\" pour afficher la traduction.\n");
 	return yyparse();
 }
 

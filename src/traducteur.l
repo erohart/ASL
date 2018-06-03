@@ -6,7 +6,7 @@ void yyerror(char *s);
 char* dictionnaireFrancaisAnglais(char* motFrancais);
 int comparaisonSansMajuscule(char* str1, char* str2);
 %}
-
+/* ?i permet de reconnaitre le mot même s'il y a des majuscules*/
 S (?i:"je"|"tu"|"il"|"elle"|"on"|"nous"|"vous"|"ils")
 V ("suis"|"es"|"est"|"sommes"|"etes"|"sont"|"ai"|"as"|"a"|"avons"|"avez"|"ont"|"mange"|"manges"|"mangeons"|"mangez"|"mangent"|"bois"|"boit"|"buvons"|"buvez"|"boivent")
 C ("eau"|"gateau"|"crepe"|"pomme"|"chat"|"chien")
@@ -16,7 +16,6 @@ NF ("pas"|"jamais")
 T (?i:"hier"|"lundi"|"mardi"|"mercredi"|"jeudi"|"vendredi"|"samedi"|"dimanche"|"demain"|"hier"|"aujourd'hui")
 P ("."|"!"|"?")
 A (?i:"un"|"une"|"la"|"le"|"les"|"quelques"|"mon"|"ma"|"mes"|"ton"|"tes"|"ta"|"son"|"sa"|"ses"|"notre"|"nos"|"vos"|"votre"|"de")
-Sep ("et"|","|"mais")
 
 
 %%
@@ -29,12 +28,11 @@ Sep ("et"|","|"mais")
 {A}     {yylval.string=dictionnaireFrancaisAnglais(yytext);return article;}
 {C} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return complement;}
 {T} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return temporalite;}
-{Sep} 	{yylval.string=dictionnaireFrancaisAnglais(yytext);return separationSubordonnee;}
 [ \t]	{return blanc;}
 \n 	{return sautLigne;}
 {P} 	{yylval.car=yytext[0];return point;}
 .	{yylval.car=yytext[0];return joker;}
-"$$$" 	{return FIN;}
+"fin" 	{return FIN;}
 "debut\n" 	{return DEBUT;}
 
 %%
