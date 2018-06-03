@@ -31,7 +31,7 @@ A (?i:"un"|"une"|"la"|"le"|"les"|"quelques"|"mon"|"ma"|"mes"|"ton"|"tes"|"ta"|"s
 [ \t]	{return blanc;}
 \n 	{return sautLigne;}
 {P} 	{yylval.car=yytext[0];return point;}
-.	{printf("mot inconnu -%s-\n", yytext);yylval.car=yytext[0];return joker;}
+.	{yylval.car=yytext[0];return joker;}
 "$$$" 	{return FIN;}
 "debut\n" {return DEBUT;}
 

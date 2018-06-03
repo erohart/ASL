@@ -27,7 +27,8 @@ char* trad = "";
 %token <string> negationFin
 %token <string> temporalite
 %token <car> joker
-%type <string> sujetVerbe
+%type <string> sujetPredicat
+%type <string> predicat
 
 %%
 
@@ -35,12 +36,12 @@ phrase 	: DEBUT phrase		{
 					printf("%s \n", trad);
 					return 0;
 				}
-	| sujetVerbe point phrase	{
+	| sujetPredicat point phrase	{
 						char* etape1 = concatenationChar($1, $2);
 						char* etape2 = concatenation(etape1, "\n");
 						trad = concatenation(etape2, trad);
 					}
-	| sautLigne sujetVerbe point phrase	{
+	| sautLigne sujetPredicat point phrase	{
 							char* etape1 = concatenationChar($2, $3);
 							char* etape2 = concatenation(etape1, "\n");
 							trad = concatenation(etape2, trad);
@@ -48,48 +49,18 @@ phrase 	: DEBUT phrase		{
 	| joker phrase	{
 				trad = concatenationChar2($1, trad);
 			}
+
 	| sautLigne FIN sautLigne 	{printf("La traduction est : \n");}
 	;
-sujetVerbe 	:temporalite blanc sujetVerbe 	{
-							char* etape1 = concatenation($1, ",");
-							$$ = concatenationAvecEspace(etape1, $3);
-						}
-		| sujet blanc verbe 	{
+sujetPredicat 	:sujet blanc predicat 	{
 						$$ = concatenationAvecEspace($1, $3);
 					}
-		| sujet blanc verbe blanc article blanc complement	{
-										char* etape1 = concatenationAvecEspace($1, $3);
-										char* etape2 = concatenationAvecEspace(etape1, $5);
-										$$ = concatenationAvecEspace(etape2, $7);
-									}
-		| sujet blanc verbe blanc adjectif	{
-								char* etape1 = concatenationAvecEspace($1, $3);
-								$$ = concatenationAvecEspace(etape1, $5);
-							}
-		| sujet blanc negationDebut blanc verbe blanc negationFin blanc adjectif 	{
-													char* etape1 = concatenationAvecEspace($1, $5);
-													char* etape2 = concatenationAvecEspace(etape1, $3);
-													$$ = concatenationAvecEspace(etape2, $9);
-												}
 		| sujet blanc verbe blanc adjectif blanc temporalite	{
 										char* etape1 = concatenation($7, ",");
 										char* etape2 = concatenationAvecEspace(etape1, $1);
 										char* etape3 = concatenationAvecEspace(etape2, $3);
-										$$ = concatenation(etape3, $5);
+										$$ = concatenationAvecEspace(etape3, $5);
 									}
-		| sujet blanc verbe blanc article blanc complement blanc adjectif	{
-												char* etape1 = concatenationAvecEspace($1, $3);
-												char* etape2 = concatenationAvecEspace(etape1, $9);
-												char* etape3 = concatenationAvecEspace(etape2, $5);
-												$$ = concatenationAvecEspace(etape3, $7);
-											}
-		| sujet blanc negationDebut blanc verbe blanc negationFin blanc article blanc complement blanc adjectif 	{
-																	char* etape1 = concatenationAvecEspace($1, $5);
-																	char* etape2 = concatenationAvecEspace(etape1, $3);
-																	char* etape3 = concatenationAvecEspace(etape2, $13);
-																	char* etape4 = concatenationAvecEspace(etape3, $9);
-																	$$ = concatenationAvecEspace(etape4, $11);
-																}
 		| sujet blanc verbe blanc article blanc complement blanc adjectif blanc temporalite	{
 														char* etape1 = concatenation($11, ",");
 														char* etape2 = concatenationAvecEspace(etape2, $1);
@@ -98,6 +69,41 @@ sujetVerbe 	:temporalite blanc sujetVerbe 	{
 														char* etape5 = concatenationAvecEspace(etape4, $5);
 														$$ = concatenationAvecEspace(etape5, $9);
 													}
+		| temporalite blanc sujetPredicat 	{
+							char* etape1 = concatenation($1, ",");
+							$$ = concatenationAvecEspace(etape1, $3);
+						}
+		| article blanc complement blanc predicat 	{
+								char* etape1 = concatenationAvecEspace($1, $3);
+								$$ = concatenationAvecEspace(etape1, $5);
+							}
+;
+
+predicat 	: verbe 	{
+					$$ = $1;
+				}
+		| verbe blanc article blanc complement 	{
+								char* etape1 = concatenationAvecEspace($1, $3);
+								$$ = concatenationAvecEspace(etape1, $5);
+							}
+		| verbe blanc adjectif 	{
+						$$ = concatenationAvecEspace($1, $3);
+					}
+		| negationDebut blanc verbe blanc negationFin blanc adjectif 	{
+											char* etape1 = concatenationAvecEspace($3, $5);
+											$$ = concatenationAvecEspace(etape1, $7);
+										}
+		| verbe blanc article blanc complement blanc adjectif 	{
+									char* etape1 = concatenationAvecEspace($1, $3);
+									char* etape2 = concatenationAvecEspace(etape1, $7);
+									$$ = concatenationAvecEspace(etape2, $5);
+								}
+		| negationDebut blanc verbe blanc negationFin blanc article blanc complement blanc adjectif 	{
+															char* etape1 = concatenationAvecEspace($3, $5);
+															char* etape2 = concatenationAvecEspace(etape1, $7);
+															char* etape3 = concatenationAvecEspace(etape2, $11);
+															$$ = concatenationAvecEspace(etape3, $9);
+														}
 		;
 %%
 
